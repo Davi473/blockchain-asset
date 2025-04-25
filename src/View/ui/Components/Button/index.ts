@@ -11,6 +11,8 @@ export default function Button(name: string, callback: Function) {
     button.style.cursor = "pointer";
     button.type = "button"
     button.value = name;
+    console.log(callback)
+    button.onclick = () => callback();
     const divButton = document.createElement("div");
     divButton.style.marginTop = "20px";
     divButton.style.textAlign = "center";

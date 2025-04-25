@@ -1,6 +1,7 @@
-import Button from "../Components/Button";
-import Input from "../Components/Input";
-import List from "../Components/List";
+import Button from "../../Components/Button";
+import Input from "../../Components/Input";
+import List from "../../Components/List";
+import useState from "../../Components/useState";
 
 function Add() {
     const [inputAsset, getInputAsset] = Input("Asset", "ex: VALE");
@@ -8,12 +9,22 @@ function Add() {
     const [inputQuantity, getInputQuantity] = Input("Quantity", "ex: 0.12");
     const [inputOrderType, getInputOrderType] = Input("Order Type", "ex: Buy or Sell");
     const [inputPurchaseDate, getInputPurchaseDate] = Input("Purchase Date", "ex: 10/10/2023");
+    const [assetList, addItensListAsset, removeItensListAsset] = List("Asset list");
+    addItensListAsset(0, ["Asset", "Category", "Type", "Quantity", "Date", "Status"], false);
 
-    const [assetList, addItensListAsset] = List("Asset list");
-    addItensListAsset(["Asset", "Category", "Type", "Quantity"], false);
-    addItensListAsset(["VALE", "STOCK", "BUY", "1.3"]);
+    function validData() {
+        if (getInputAsset() && getInputCategory() && getInputQuantity() && getInputOrderType() && getInputPurchaseDate())
+        {
+            const id = crypto.randomUUID();
+            const buttonRemove = Button("Remove", () => removeItensListAsset(id));
+            buttonRemove.style.margin = "0px";
+            addItensListAsset(id, [getInputAsset(), getInputCategory(), getInputOrderType(), getInputQuantity(), getInputPurchaseDate(), buttonRemove]);
+            return;
+        }
+        alert("Insufficient data");
+    }
 
-    const button = Button("Sign");
+    const button = Button("Sign", validData);
 
     const divInputs = document.createElement("div");
     divInputs.style.display = "flex";
@@ -30,7 +41,7 @@ function Add() {
 
     const divAdd = document.createElement("div");
     divAdd.style.fontFamily = "Arial, sans-serif";
-    divAdd.style.width = "350px";
+    divAdd.style.width = "550px";
     divAdd.style.margin = "20px auto";
     divAdd.style.padding = "15px";
     divAdd.style.backgroundColor = "#fff";

@@ -1,4 +1,4 @@
-function List(nameList: string): [HTMLElement, Function] {
+export default function List(nameList: string): [HTMLElement, Function, Function] {
     const h3 = document.createElement("h3");
     h3.style.fontSize = "16px";
     h3.style.fontWeight = "bold";
@@ -13,9 +13,12 @@ function List(nameList: string): [HTMLElement, Function] {
     div.appendChild(h3);
     div.appendChild(divList)
 
-    function addItensList(list: string[], border: boolean = true) {
+    const listElements: { element: HTMLElement; id: string}[] = [];
+
+    function addItensList(key: string | number, list: string | HTMLElement[], border: boolean = true) {
         const divItem = document.createElement("div");
         divItem.style.display = "flex";
+        divItem.id = key.toString();
         if (border) {
             divItem.style.border = "5px solid #ccc";
             divItem.style.borderRadius = "10px";
@@ -25,19 +28,29 @@ function List(nameList: string): [HTMLElement, Function] {
         }
         divItem.style.justifyContent = "space-between";
         for (const item of list) {
-            const span = document.createElement("span");
-            span.style.flex = "1";
-            span.style.textAlign = "center";
-            span.innerText = item;
-            divItem.appendChild(span);
+            if (typeof item === "string") {
+                const span = document.createElement("span");
+                span.style.flex = "1";
+                span.style.textAlign = "center";
+                span.innerText = item;
+                span.style.justifyContent = "center";
+                span.style.alignContent = "center";
+                divItem.appendChild(span);
+                continue;
+            }
+            divItem.appendChild(item);
+            listElements.push({element: divItem, id: key.toString()});
         }
         divList.appendChild(divItem);
     }
 
-    return [div, addItensList];
-}
+    function removeItensList(id: string) {
+        const div = listElements.find((item) => item.id === id);
+        div?.element.remove();
+    }
 
-export default List;
+    return [div, addItensList, removeItensList];
+}
 
 /* 
     <div>

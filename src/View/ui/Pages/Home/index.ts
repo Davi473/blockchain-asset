@@ -1,5 +1,5 @@
-import Greeting from "../Components/Greeting/index.js";
-import List from "../Components/List/index.js";
+import Greeting from "../../Components/Greeting";
+import List from "../../Components/List";
 
 function Home()
 {
@@ -11,8 +11,8 @@ function Home()
     home.style.backgroundColor = "#fff";
     const greeting = Greeting("Fulano");
     const [assetList, addItensListAsset] = List("Asset list");
-    addItensListAsset(["Asset", "Category", "Type", "Quantity"], false);
-    addItensListAsset(["VALE", "STOCK", "BUY", "1.3"]);
+    addItensListAsset(0, ["Asset", "Category", "Type", "Quantity"], false);
+    addItensListAsset(1, ["VALE", "STOCK", "BUY", "1.3"]);
     home.appendChild(greeting);
     home.appendChild(assetList);
     return home;
