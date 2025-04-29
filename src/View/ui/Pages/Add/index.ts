@@ -1,3 +1,4 @@
+import Asset from "../../../domain/entity/Asset";
 import Button from "../../Components/Button";
 import Input from "../../Components/Input";
 import List from "../../Components/List";
@@ -11,11 +12,17 @@ function Add() {
     const [inputPurchaseDate, getInputPurchaseDate] = Input("Purchase Date", "ex: 10/10/2023");
     const [assetList, addItensListAsset, removeItensListAsset] = List("Asset list");
     addItensListAsset(0, ["Asset", "Category", "Type", "Quantity", "Date", "Status"], false);
+    const [listAssetObject, setListAssetObject] = useState<[{object: Asset, id: string}] | []>([]);
 
     function validData() {
         if (getInputAsset() && getInputCategory() && getInputQuantity() && getInputOrderType() && getInputPurchaseDate())
         {
-            const id = crypto.randomUUID();
+            const id: string = crypto.randomUUID();
+            const object = new Asset(getInputAsset(), getInputCategory(), getInputQuantity(), getInputOrderType(), getInputPurchaseDate());
+            const list = listAssetObject;
+            list.push({object: object, id: id});
+            setListAssetObject(list);
+            console.log(listAssetObject);
             const buttonRemove = Button("Remove", () => removeItensListAsset(id));
             buttonRemove.style.margin = "0px";
             addItensListAsset(id, [getInputAsset(), getInputCategory(), getInputOrderType(), getInputQuantity(), getInputPurchaseDate(), buttonRemove]);

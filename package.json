@@ -2,12 +2,17 @@
   "name": "typescript-counter",
   "version": "1.0.0",
   "scripts": {
+    "electron": "electron ./dist/Electron/main.js",
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc",
     "preview": "vite preview"
   },
   "devDependencies": {
     "typescript": "^5.2.2",
     "vite": "^5.0.0"
+  },
+  "dependencies": {
+    "@types/electron": "^1.6.12",
+    "electron": "^35.2.1"
   }
 }

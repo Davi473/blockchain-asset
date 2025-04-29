@@ -6,7 +6,7 @@ export default class Quantity {
         if (!value) throw new Error("Value invalid");
         const inNumber = /^[0-9]+$/.test(value);
         if (!inNumber) throw new Error("Value invalid not number");
-        if (Number(value) > 0) throw new Error("Cannot be 0 or less than 0");
+        if (Number(value) < 0) throw new Error("Cannot be 0 or less than 0");
         this.value = Number(value);
     }
 

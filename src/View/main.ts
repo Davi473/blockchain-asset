@@ -1,6 +1,6 @@
-import Add from "./Add/index.js";
-import Nav from "./Components/Nav/index.js";
-import Home from "./Home/index.js";
+import Add from "./ui/Pages/Add";
+import Nav from "./ui/Components/Nav";
+import Home from "./ui/Pages/Home";
 
 function Main() {
     const div = document.createElement("div");
