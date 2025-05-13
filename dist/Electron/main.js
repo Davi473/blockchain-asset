@@ -7,10 +7,10 @@ function createWindow() {
         webPreferences: {
             nodeIntegration: false,
             contextIsolation: true,
-            // preload: `${__dirname}/preload.js`
+            preload: `${__dirname}/preload.js`
         }
     });
-    mainWindow.loadURL('http://localhost:5173');
+    mainWindow.loadFile('index.html');
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
