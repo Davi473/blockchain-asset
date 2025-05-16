@@ -1,6 +1,4 @@
 import LastBlock from "../../application/usecase/lastBlock";
-import BlockChain from "../../domain/entity/Blockchain";
-import Transaction from "../../domain/entity/Transaction";
 import WsServer from "../ws/WebSocket";
 
 export default class BlockChainController {
@@ -11,7 +9,7 @@ export default class BlockChainController {
     ) {
         this.wsServer.register("blocks", async (data: string) => {
             console.log(data);
-            return { response: "recebi"};
+            return JSON.stringify({ response: "recebi"});
         });
         this.wsServer.register("lastBlock", async () => {
             const output = await lastBlock.execute();

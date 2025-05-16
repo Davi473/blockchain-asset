@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Teste WebSocket</title>
+</head>
+<body>
+  <h1>Teste WebSocket</h1>
+  <button id="connect">Conectar e Enviar</button>
+  <pre id="output"></pre>
+
+  <script>
+    document.getElementById('connect').addEventListener('click', () => {
+      const output = document.getElementById('output');
+      const socket = new WebSocket('ws://localhost:3009');
+
+      socket.addEventListener('open', () => {
+        output.textContent += 'Conectado ao servidor.\n';
+        socket.send('blocks');
+      });
+
+      socket.addEventListener('message', (event) => {
+        output.textContent += 'Resposta do servidor: ' + event.data + '\n';
+        try {
+          const resposta = JSON.parse(event.data);
+          if (resposta.resposta === 'recebi') {
+            output.textContent += 'Resposta esperada recebida ✅\n';
+          } else {
+            output.textContent += 'Resposta inesperada ❌\n';
+          }
+        } catch (err) {
+          output.textContent += 'Erro ao processar JSON: ' + err + '\n';
+        }
+        socket.close();
+      });
+
+      socket.addEventListener('error', (event) => {
+        output.textContent += 'Erro no WebSocket: ' + event.message + '\n';
+      });
+
+      socket.addEventListener('close', () => {
+        output.textContent += 'Conexão encerrada.\n';
+      });
+    });
+  </script>
+</body>
+</html>
