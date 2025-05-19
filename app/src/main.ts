@@ -1,4 +1,5 @@
-import LastBlock from "./application/usecase/lastBlock";
+import GetBlocks from "./application/usecase/getBlocks";
+import GetLastBlock from "./application/usecase/getLastBlock";
 import BlockChain from "./domain/entity/Blockchain";
 import BlockChainController from "./infra/controller/BlockChainController";
 import { ServerWebSocket } from "./infra/ws/WebSocket";
@@ -8,6 +9,7 @@ const WS = new ServerWebSocket(PORT);
 
 const BLOCKCHAIN = new BlockChain();
 
-const lastBlockUseCase = new LastBlock(BLOCKCHAIN);
+const getLastBlockUseCase = new GetLastBlock(BLOCKCHAIN);
+const getBlocksUseCase = new GetBlocks(BLOCKCHAIN)
 
-new BlockChainController(WS, lastBlockUseCase);
+new BlockChainController(WS, getLastBlockUseCase, getBlocksUseCase);

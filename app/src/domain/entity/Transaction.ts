@@ -1,19 +1,28 @@
-import { createHash } from "crypto";
+import { createVerify } from "crypto";
 
-export default class Transaction {
-    public txid: string;
-    
+export default class Transaction {  
     constructor (
-        public outputs: any,
-        public inputs: any
-    ) {
-        this.txid = this.calculateTxid();
-    }
+        public outputs: TransactionType[],
+        public inputs: TransactionType[],
+        public publicKey: string, 
+        public txid: string,
+        public timestamp: number,
+        public signature: string
+    ) {}
 
-    private calculateTxid(): string {
-        const inputString = JSON.stringify(this.inputs);
-        const outputString = JSON.stringify(this.outputs);
-        return createHash('sha256')
-        .update(inputString + outputString).digest('hex');
+    public isValid(): boolean {
+        const inputString = JSON.stringify({ outputs: this.outputs, inputs: this.inputs, publicKey: this.publicKey, txid: this.txid, timestamp: this.timestamp});
+        const verifier = createVerify('SHA256');
+        verifier.update(inputString);
+        verifier.end();
+        const isValid = verifier.verify(this.publicKey, this.signature, 'base64');
+        return isValid;
     }
+}
+
+type TransactionType = {
+    name: string,
+    average: number,
+    quantity: number,
+    category: string
 }

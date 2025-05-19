@@ -1,7 +1,7 @@
 import BlockChain from "../../domain/entity/Blockchain";
 import UseCase from "./UseCase";
 
-export default class LastBlock implements UseCase {
+export default class GetLastBlock implements UseCase {
     constructor (
         private readonly blockchain: BlockChain
     ) {}

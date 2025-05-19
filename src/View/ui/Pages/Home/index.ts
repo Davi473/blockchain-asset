@@ -19,7 +19,3 @@ function Home()
 }
 
 export default Home;
-
-/*
-    <div style="font-family: Arial, sans-serif; width: 350px; margin: 20px auto; padding: 15px; background-color: #fff;">
-*/
