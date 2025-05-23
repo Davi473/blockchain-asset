@@ -3,7 +3,7 @@ import { createHash, createSign } from "crypto";
 export default class Transaction {
     public txid: string;
     public timestamp: number
-     public signature: string = ""
+    public signature: string = ""
     
     constructor (
         public outputs: TransactionType[],
