@@ -1,11 +1,11 @@
-import { createHash } from "crypto";
 import Transaction from "./Transaction";
+import { toUtf8Bytes, keccak256 } from 'ethers';
 
 export default class Block {
     public block_hash: string = "";
     public size: number = 0;
     public transaction: Transaction[] =[];
-    public nonce: number = 0;
+    public nonce: number = 1;
 
     constructor(
         public block_height: number, 
@@ -18,7 +18,7 @@ export default class Block {
     calculateHash() {
         const data = this.block_height.toString() + this.previous_block_hash +
             this.timestamp + this.difficulty.toString() + this.nonce.toString() + this.version.toString();
-        this.block_hash = createHash("sha256").update(data).digest("hex");
+        this.block_hash = keccak256(toUtf8Bytes(data));
     }
 
     addTransaction(transaction: Transaction) {

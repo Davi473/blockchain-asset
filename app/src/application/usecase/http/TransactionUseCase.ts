@@ -12,7 +12,7 @@ export default class TransactionUseCase implements UseCase {
         const { outputs, inputs, publicKey, txid, timestamp, signature } = input;
         const transaction = new Transaction(outputs, inputs, publicKey, txid, timestamp, signature);
         if (!transaction.isValid()) throw new Error("Transaction invalid");
-        this.blockchain.addTransaction();
+        this.blockchain.addTransaction(transaction);
         return { message: "Sucesse" }
     }
 }

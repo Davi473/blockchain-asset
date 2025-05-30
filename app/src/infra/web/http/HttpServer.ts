@@ -12,11 +12,12 @@ export class HttpServerExpress implements HttpServer{
     }
 
     public async register(method: string, url: string, callback: Function) {
-        this.server[method](url, (req: any, res: any) => {
+        this.server[method](url, async (req: any, res: any) => {
             try {
-                const outputs = callback(req, res);
+                const outputs = await callback(req, res);
                 if (outputs) res.json(outputs);
             } catch (e: any) {
+                console.log(e.message);
                 res.status(422).json({message: e.message});
             }
         });

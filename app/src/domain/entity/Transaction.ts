@@ -1,4 +1,4 @@
-import { createVerify } from "crypto";
+import { verifyMessage  } from 'ethers';
 
 export default class Transaction {  
     constructor (
@@ -12,10 +12,10 @@ export default class Transaction {
 
     public isValid(): boolean {
         const inputString = JSON.stringify({ outputs: this.outputs, inputs: this.inputs, publicKey: this.publicKey, txid: this.txid, timestamp: this.timestamp});
-        const verifier = createVerify('SHA256');
-        verifier.update(inputString);
-        verifier.end();
-        const isValid = verifier.verify(this.publicKey, this.signature, 'base64');
+        const signature = this.signature;
+        const expectedAddress = this.publicKey;
+        const recoveredAddress = verifyMessage(inputString, signature);
+        const isValid = recoveredAddress.toLowerCase() === expectedAddress.toLowerCase();
         return isValid;
     }
 }
