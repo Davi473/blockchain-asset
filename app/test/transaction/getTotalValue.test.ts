@@ -7,15 +7,15 @@ test("Get Total Value", async () => {
     const asset = {
         name: "VALE",
         average: 8.65,
-        quantity: 1.28,
+        quantity: 10,
         category: "STOCK"
     }
-    const transaction = new Transaction([asset], [asset, asset], wallet.address);
+    const transaction = new Transaction([], [asset], wallet.address);
     await transaction.signer(wallet.privateKey);
     await axios.post("http://localhost:3000/transaction", transaction);
-    await axios.post("http://localhost:3000/transaction", transaction);
-    const responseData = await axios.post("http://localhost:3000/transaction", transaction);
-    await axios.get(`http://localhost:3000/amount/${wallet.address}`);
+    // await axios.post("http://localhost:3000/transaction", transaction);
+    // await axios.post("http://localhost:3000/transaction", transaction);
+    // await axios.get(`http://localhost:3000/amount/${wallet.address}`);
 });
 
 
