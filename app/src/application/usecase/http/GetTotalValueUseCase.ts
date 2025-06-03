@@ -34,6 +34,21 @@ export default class GetTotalValueUseCase implements UseCase {
                 asset[transaction.category][transaction.name].average = valueTotal / (transaction.quantity + quantity);
             };
         });  
+        outputsWallet.forEach(transactions => {
+            for (const transaction of transactions) {
+                if (!asset[transaction.category]) asset[transaction.category] = {};
+                if (!asset[transaction.category][transaction.name]) {
+                    asset[transaction.category][transaction.name] = { 
+                    average: transaction.average, quantity: transaction.quantity}
+                    continue;
+                }
+                const quantity = asset[transaction.category][transaction.name].quantity
+                asset[transaction.category][transaction.name].quantity -= transaction.quantity
+                const average = asset[transaction.category][transaction.name].average
+                const valueTotal = (transaction.quantity * transaction.average) - (quantity * average);
+                asset[transaction.category][transaction.name].average = valueTotal / (transaction.quantity + quantity);
+            };
+        }); 
         return asset;                                                                                                                  
     }
 }
