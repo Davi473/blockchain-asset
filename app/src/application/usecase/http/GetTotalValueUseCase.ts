@@ -18,38 +18,34 @@ export default class GetTotalValueUseCase implements UseCase {
                 transaction.outputs[0] ? outputsWallet.push(transaction.outputs) : null
             }
         }));
-        const asset: any = {};
+        const assets: any = {};
         inputsWallet.forEach(transactions => {
             for (const transaction of transactions) {
-                if (!asset[transaction.category]) asset[transaction.category] = {};
-                if (!asset[transaction.category][transaction.name]) {
-                    asset[transaction.category][transaction.name] = { 
+                if (!assets[transaction.category]) assets[transaction.category] = {};
+                if (!assets[transaction.category][transaction.name]) {
+                    assets[transaction.category][transaction.name] = { 
                     average: transaction.average, quantity: transaction.quantity}
                     continue;
                 }
-                const quantity = asset[transaction.category][transaction.name].quantity
-                asset[transaction.category][transaction.name].quantity += transaction.quantity
-                const average = asset[transaction.category][transaction.name].average
+                const quantity = assets[transaction.category][transaction.name].quantity
+                assets[transaction.category][transaction.name].quantity += transaction.quantity
+                const average = assets[transaction.category][transaction.name].average
                 const valueTotal = (transaction.quantity * transaction.average) + (quantity * average);
-                asset[transaction.category][transaction.name].average = valueTotal / (transaction.quantity + quantity);
+                assets[transaction.category][transaction.name].average = valueTotal / (transaction.quantity + quantity);
             };
         });  
         outputsWallet.forEach(transactions => {
             for (const transaction of transactions) {
-                if (!asset[transaction.category]) asset[transaction.category] = {};
-                if (!asset[transaction.category][transaction.name]) {
-                    asset[transaction.category][transaction.name] = { 
+                if (!assets[transaction.category]) assets[transaction.category] = {};
+                if (!assets[transaction.category][transaction.name]) {
+                    assets[transaction.category][transaction.name] = { 
                     average: transaction.average, quantity: transaction.quantity}
                     continue;
                 }
-                const quantity = asset[transaction.category][transaction.name].quantity
-                asset[transaction.category][transaction.name].quantity -= transaction.quantity
-                const average = asset[transaction.category][transaction.name].average
-                const valueTotal = (transaction.quantity * transaction.average) - (quantity * average);
-                asset[transaction.category][transaction.name].average = valueTotal / (transaction.quantity + quantity);
+                assets[transaction.category][transaction.name].quantity -= transaction.quantity
             };
         }); 
-        return asset;                                                                                                                  
+        return assets;                                                                                                                  
     }
 }
 
